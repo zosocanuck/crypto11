@@ -145,6 +145,10 @@ func marshalEcParams(c elliptic.Curve) ([]byte, error) {
 }
 
 func unmarshalEcParams(b []byte) (elliptic.Curve, error) {
+	
+	if len(b) == 0 {
+		return elliptic.P256(), nil
+	}
 	// See if it's a well-known curve
 	for _, ci := range wellKnownCurves {
 		if bytes.Equal(b, ci.oid) {
@@ -159,6 +163,9 @@ func unmarshalEcParams(b []byte) (elliptic.Curve, error) {
 }
 
 func unmarshalEcPoint(b []byte, c elliptic.Curve) (*big.Int, *big.Int, error) {
+	if len(b) == 0 {
+		return nil, nil, nil
+	}
 	var pointBytes []byte
 	extra, err := asn1.Unmarshal(b, &pointBytes)
 	if err != nil {
