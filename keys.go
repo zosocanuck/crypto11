@@ -24,6 +24,7 @@ package crypto11
 import (
 	"crypto"
 	"crypto/x509"
+
 	"github.com/miekg/pkcs11"
 	"github.com/pkg/errors"
 )
@@ -214,6 +215,9 @@ func (c *Context) makeKeyPair(session *pkcs11Session, privHandle *pkcs11.ObjectH
 		}
 
 		result.pkcs11PrivateKey.pubKey = pub
+		if certificate != nil {
+			result.pkcs11PrivateKey.pubKey = certificate.PublicKey
+		}
 		return result, certificate, nil
 
 	default:
