@@ -194,7 +194,9 @@ func exportECDSAPublicKey(session *pkcs11Session, pubHandle pkcs11.ObjectHandle)
 		pkcs11.NewAttribute(pkcs11.CKA_EC_POINT, nil),
 	}
 	if attributes, err = session.ctx.GetAttributeValue(session.handle, pubHandle, template); err != nil {
-		return nil, err
+		//ignore parameters for now
+		return nil, nil
+		//return nil, err
 	}
 	if pub.Curve, err = unmarshalEcParams(attributes[0].Value); err != nil {
 		return nil, err
